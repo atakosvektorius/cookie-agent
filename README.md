@@ -10,16 +10,14 @@ Tai BDAR (Bendrojo duomenų apsaugos reglamento) slapukų atitikties įrankis, s
 - **Chrome ir chromedriver** - Google Chrome naršyklę ir jos kontroleris (v142)
 - **noVNC ir Linux deskop** - GUI (Xfce4) pasiekiamas per naršyklę
 - **Python ir Selenium** - Web automatizacija
-
-### Infrastruktūra
 - **Docker & Docker Compose** - Konteinerizacija
 
 </br>
 
 
-## 📦 Naudojimas
+## Naudojimas
 
-### 1. Klonuokite Repozitoriją
+### 1. Nuklonuokite repozitoriją
 
 ```bash
 git clone https://github.com/atakosvektorius/cookie-agent.git
@@ -31,15 +29,13 @@ cd cookie-agent
 ```bash
 cp docker-compose.yml.sample docker-compose.yml
 ```
-Pastaba API raktas ir serverio adresas yra standartiniai reikia pakeisti į kitą
+Pastaba API raktas ir serverio adresas yra localhost rekomenduojama pakeisti į <serverio-ip>
 
 ```bash
 nano docker-compose.yml
 ```
 
-
-
-### 4. Paleiskite Docker Konteinerius
+### 4. Paleiskite Docker konteinerius
 
 ```bash
 ./runUpdateThisStack.sh
@@ -57,7 +53,7 @@ http://<serverio-ip>:7900
 ````
 
 
-## 📄 Licencija
+## Licencija
 
 Šis projektas sukurtas "Atakos vektorius".
 
@@ -66,7 +62,7 @@ http://<serverio-ip>:7900
 
 
 
-## 📞 Kontaktai
+## Kontaktai
 
 Dėl klausimų ar pagalbos, susisiekite su Atakos Vektoriaus komanda per mūsų oficialų tinklalapį:
 
