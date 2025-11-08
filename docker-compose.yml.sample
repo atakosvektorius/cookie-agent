@@ -2,15 +2,15 @@ services:
   cookie-scrapper:
     container_name: cookie-scrapper
     image: cookie-scrapper
-    build: .
+    build:
+      context: ./agent
+      dockerfile: Dockerfile
     environment:
-      API_KEY: "randomKeyValue"
-      GET_WORK_URL: "https://example.com/api/admin/cookies/getwork"
-      PUSH_RESULTS_URL: "https://example.com/api/admin/cookies/push"
+      API_KEY: "abcdef0123456789abcdef0123456789"
+      GET_WORK_URL: "http://127.0.0.1/api/admin/cookies/getwork"
+      PUSH_RESULTS_URL: "http://127.0.0.1/api/admin/cookies/push"
       CHROMEDRIVER_PATH: "/usr/bin/chromedriver"
-      LIMIT: 50
-    #deploy:
-      #replicas: 10
+      LIMIT: 69
     ports:
       - "4444:4444"
       - "7900:7900"
