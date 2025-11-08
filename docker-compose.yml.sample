@@ -1,0 +1,21 @@
+services:
+  cookie-scrapper:
+    container_name: cookie-scrapper
+    image: cookie-scrapper
+    build: .
+    environment:
+      API_KEY: "randomKeyValue"
+      GET_WORK_URL: "https://example.com/api/admin/cookies/getwork"
+      PUSH_RESULTS_URL: "https://example.com/api/admin/cookies/push"
+      CHROMEDRIVER_PATH: "/usr/bin/chromedriver"
+      LIMIT: 50
+    #deploy:
+      #replicas: 10
+    ports:
+      - "4444:4444"
+      - "7900:7900"
+    shm_size: 2g
+    dns:
+      - 1.1.1.1
+    tty: true
+    restart: unless-stopped
