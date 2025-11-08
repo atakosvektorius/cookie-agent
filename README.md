@@ -1,6 +1,8 @@
-#  Agentas slapukams rinkti į BDAR atitikties serverį
+#  Agentas interneto slapukams rinkti į BDAR atitikties serverį
 
-Tai BDAR (Bendrojo duomenų apsaugos reglamento) slapukų atitikties įrankis, skirtas padėti svetainėms atitikti Europos Sąjungos duomenų apsaugos reikalavimus. Pagrindinis serveris https://github.com/atakosvektorius/cookie-web
+Tai BDAR (Bendrojo duomenų apsaugos reglamento) slapukų atitikties įrankis, skirtas padėti svetainėms atitikti Europos Sąjungos duomenų apsaugos reikalavimus. 
+
+Įrankio repozitorija: https://github.com/atakosvektorius/cookie-web
 
 
 </br>
@@ -29,13 +31,9 @@ cd cookie-agent
 ```bash
 cp docker-compose.yml.sample docker-compose.yml
 ```
-Pastaba API raktas ir serverio adresas yra localhost rekomenduojama pakeisti į <serverio-ip>
+Pastaba API raktas ir serverio adresas yra localhost rekomenduojama pakeisti į <serverio-ip> docker-compose.yml faile
 
-```bash
-nano docker-compose.yml
-```
-
-### 4. Paleiskite Docker konteinerius
+### 3. Paleiskite Docker konteinerius
 
 ```bash
 ./runUpdateThisStack.sh
@@ -53,17 +51,6 @@ http://<serverio-ip>:7900
 ````
 
 
-## Licencija
+## Licencija ir kontaktai
 
-Šis projektas sukurtas "Atakos vektorius".
-
-</br>
-
-
-
-
-## Kontaktai
-
-Dėl klausimų ar pagalbos, susisiekite su Atakos Vektoriaus komanda per mūsų oficialų tinklalapį:
-
-https://atakosvektorius.lt
+Šis projektas sukurtas "Atakos vektorius", https://atakosvektorius.lt
