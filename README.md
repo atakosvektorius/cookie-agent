@@ -2,9 +2,6 @@
 
 Tai BDAR (Bendrojo duomenų apsaugos reglamento) slapukų atitikties įrankis, skirtas padėti svetainėms atitikti Europos Sąjungos duomenų apsaugos reikalavimus. 
 
-Įrankio repozitorija: https://github.com/atakosvektorius/slapukai
-
-
 
 </br>
 

@@ -1,5 +1,6 @@
-# Ignore Docker Compose file
+# Ignore YAML files
 *.yml
+*.yaml
 
 # Ignore system files
 .DS_Store

@@ -1,7 +1,7 @@
 services:
-  slapukai-agent:
-    container_name: slapukai-agent
-    image: slapukai-agent
+  cookie-agent:
+    container_name: cookie-agent
+    image: cookie-agent
     build: .
     environment:
       API_KEY: "abcdef0123456789abcdef0123456789"
