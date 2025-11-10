@@ -2,7 +2,7 @@ services:
   cookie-agent:
     container_name: cookie-agent
     image: cookie-agent
-    build: .
+    build: ./agent
     environment:
       API_KEY: "abcdef0123456789abcdef0123456789"
       GET_WORK_URL: "http://172.17.0.1/api/admin/cookies/getwork"
