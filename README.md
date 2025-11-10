@@ -2,7 +2,8 @@
 
 Tai BDAR (Bendrojo duomenų apsaugos reglamento) slapukų atitikties įrankis, skirtas padėti svetainėms atitikti Europos Sąjungos duomenų apsaugos reikalavimus. 
 
-Įrankio repozitorija: https://github.com/atakosvektorius/cookie-web
+Įrankio repozitorija: https://github.com/atakosvektorius/slapukai
+
 
 
 </br>
@@ -22,8 +23,8 @@ Tai BDAR (Bendrojo duomenų apsaugos reglamento) slapukų atitikties įrankis, s
 ### 1. Nuklonuokite repozitoriją
 
 ```bash
-git clone https://github.com/atakosvektorius/cookie-agent.git
-cd cookie-agent
+git clone https://github.com/atakosvektorius/agent
+cd agent
 ```
 
 ### 2. Sukonfigūruokite Docker Compose

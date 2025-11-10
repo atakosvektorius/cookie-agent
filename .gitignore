@@ -1,8 +1,5 @@
-# Ignore all log files
-*.log
-
 # Ignore Docker Compose file
-docker-compose.yml
+*.yml
 
 # Ignore system files
 .DS_Store

@@ -107,7 +107,7 @@ def main():
             for prefix in protocols:
                 url = f"{prefix}{domain}"
                 try:
-                    driver.set_page_load_timeout(5)
+                    driver.set_page_load_timeout(10)
                     driver.get(url)
                     WebDriverWait(driver, 5).until(
                         lambda d: d.execute_script("return document.readyState") == "complete"
