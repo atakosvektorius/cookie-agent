@@ -4,6 +4,7 @@ import os
 import sys
 import socket
 import dns.resolver
+from datetime import datetime
 from selenium import webdriver
 from selenium.webdriver.chrome.service import Service
 from selenium.webdriver.support.ui import WebDriverWait
@@ -14,11 +15,22 @@ GET_WORK_URL = os.getenv("GET_WORK_URL")
 PUSH_RESULTS_URL = os.getenv("PUSH_RESULTS_URL")
 CHROMEDRIVER_PATH = os.getenv("CHROMEDRIVER_PATH")
 LIMIT = os.getenv("LIMIT")
+HEALTHCHECK_FILE = os.path.join(os.path.dirname(__file__), "healthcheck.log")
+
+def write_healthcheck(domain):
+    """Write timestamp and domain to healthcheck file"""
+    try:
+        timestamp = datetime.now().isoformat()
+        with open(HEALTHCHECK_FILE, "a") as f:
+            f.write(f"{timestamp} {domain}\n")
+    except Exception as e:
+        print(f"[WARN] Failed to write healthcheck: {e}")
 
 def get_work():
     try:
         payload = {"api_key": API_KEY, "limit": LIMIT}
-        response = requests.post(GET_WORK_URL, json=payload)
+        # Add timeout to prevent hanging when network is down
+        response = requests.post(GET_WORK_URL, json=payload, timeout=30)
         response.raise_for_status()
         data = response.json()
         return [item["domain_name"] for item in data.get("domains", [])]
@@ -38,6 +50,7 @@ def push_cookies(domain, cookies):
         response = requests.post(PUSH_RESULTS_URL, json=data)
         response.raise_for_status()
         print(f"[OK] Pushed cookies for {domain}")
+        write_healthcheck(domain)
     except Exception as e:
         print(f"[WARN] Push failed for {domain}: {e}")
 
@@ -71,11 +84,18 @@ def is_port_open(domain, port, timeout=3):
 
 def main():
     print("[INFO] Fetching domains...")
+    import time
     while(True):
-        domains = get_work()
+        try:
+            domains = get_work()
+        except Exception as e:
+            print(f"[ERROR] Failed to get work (network issue?): {e}")
+            domains = None
         if not domains:
             print("[WARN] No domains received from API.")
-            return
+            # Continue instead of returning to keep script alive and updating healthcheck
+            time.sleep(10)
+            continue
 
         options = Options()
         options.add_argument("--disable-dev-shm-usage")
@@ -87,7 +107,6 @@ def main():
 
         for domain in domains:
             print(f"[INFO] Processing: {domain}")
-
             # DNS A record check
             if not has_a_record(domain):
                 print(f"[DNS] {domain} has no A record. Deleting.")

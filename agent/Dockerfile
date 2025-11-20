@@ -8,5 +8,10 @@ RUN python3 -m pip install --no-cache-dir selenium requests dnspython
 COPY scrapper.py /app/
 COPY scrapper_entrypoint.sh /opt/bin/
 
+USER root
+RUN chmod 777 /app
+
+USER seluser 
+
 # Run scrapper
 CMD ["bash", "/opt/bin/scrapper_entrypoint.sh"]
