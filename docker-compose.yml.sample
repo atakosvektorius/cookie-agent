@@ -8,12 +8,53 @@ services:
       GET_WORK_URL: "http://172.17.0.1/api/admin/cookies/getwork"
       PUSH_RESULTS_URL: "http://172.17.0.1/api/admin/cookies/push"
       CHROMEDRIVER_PATH: "/usr/bin/chromedriver"
-      LIMIT: 69
-    ports:
-      - "4444:4444"
-      - "7900:7900"
+      LIMIT: 10
     shm_size: 2g
+    labels:
+      autoheal-cookie-agent: true
     dns:
       - 1.1.1.1
     tty: true
+    healthcheck:
+      test: ["CMD-SHELL", "test -f /app/healthcheck.log && test $(($(date +%s) - $(stat -c %Y /app/healthcheck.log))) -lt 120"]
+      interval: 20s
+      timeout: 10s
+      retries: 3
+      start_period: 30s
+    restart: unless-stopped
+
+  cookie-agent-deleted:
+    container_name: cookie-agent-deleted
+    image: cookie-agent
+    build: ./agent
+    environment:
+      API_KEY: "abcdef0123456789abcdef0123456789"
+      GET_WORK_URL: "http://172.17.0.1/api/admin/deletedcookies/getwork"
+      PUSH_RESULTS_URL: "http://172.17.0.1/api/admin/cookies/push"
+      CHROMEDRIVER_PATH: "/usr/bin/chromedriver"
+      LIMIT: 10
+    shm_size: 2g
+    labels:
+      autoheal-cookie-agent: true
+    dns:
+      - 1.1.1.1
+    tty: true
+    healthcheck:
+      test: ["CMD-SHELL", "test -f /app/healthcheck.log && test $(($(date +%s) - $(stat -c %Y /app/healthcheck.log))) -lt 120"]
+      interval: 20s
+      timeout: 10s
+      retries: 3
+      start_period: 30s
+    restart: unless-stopped
+
+
+  cookie-agent-autoheal:
+    container_name: cookie-agent-autoheal
+    image: willfarrell/autoheal:1.2.0
+    volumes:
+      - /etc/localtime:/etc/localtime:ro
+      - /var/run/docker.sock:/var/run/docker.sock
+    network_mode: none
+    environment:
+      AUTOHEAL_CONTAINER_LABEL: autoheal-cookie-agent
     restart: unless-stopped
