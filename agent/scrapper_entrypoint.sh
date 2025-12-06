@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 
 # Start Selenium services as a background job
 echo "[*] SCRAPPER DOCKER STARTING ORIGINAL ENTRYPOINT..."

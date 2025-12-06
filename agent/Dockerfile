@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 FROM selenium/standalone-firefox:latest
 
 # Install dependencies
