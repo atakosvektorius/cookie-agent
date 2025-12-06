@@ -1,16 +1,17 @@
 #  Agentas interneto slapukams rinkti į BDAR atitikties serverį
 
 Tai BDAR (Bendrojo duomenų apsaugos reglamento) slapukų atitikties įrankis, skirtas padėti svetainėms atitikti Europos Sąjungos duomenų apsaugos reikalavimus. 
-
-
 </br>
 
-
 ## Technologijos
-- **Chrome ir chromedriver** - Google Chrome naršyklę ir jos kontroleris (v142)
+
+- **Firefox ir geckodriver** - Firefox naršyklę ir jos kontroleris
 - **noVNC ir Linux deskop** - GUI (Xfce4) pasiekiamas per naršyklę
 - **Python ir Selenium** - Web automatizacija
 - **Docker & Docker Compose** - Konteinerizacija
+
+## Architektūra
+- **X86/ARM** - 
 
 </br>
 
@@ -41,12 +42,13 @@ Pastaba API raktas ir serverio adresas yra localhost rekomenduojama pakeisti į 
 
 
 
-## Naudojimas per naršyklę 
+## Problemų sprendimai
 
-Sistema bus pasiekiama adresu:
-````
-http://<serverio-ip>:7900
-````
+Logai per terminalą 
+
+```
+docker logs -f cookie-agent
+```
 
 
 ## Licencija ir kontaktai

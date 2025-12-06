@@ -1,17 +1,12 @@
 #!/bin/bash
-FROM selenium/standalone-chrome:142.0-chromedriver-142.0
+FROM selenium/standalone-firefox:latest
 
 # Install dependencies
 RUN python3 -m pip install --no-cache-dir selenium requests dnspython
 
 # Copy scripts
-COPY scrapper.py /app/
+COPY scrapper.py /home/seluser/app/
 COPY scrapper_entrypoint.sh /opt/bin/
-
-USER root
-RUN chmod 777 /app
-
-USER seluser 
 
 # Run scrapper
 CMD ["bash", "/opt/bin/scrapper_entrypoint.sh"]
