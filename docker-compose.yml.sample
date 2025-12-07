@@ -8,6 +8,7 @@ services:
       GET_WORK_URL: "http://172.17.0.1/api/admin/cookies/getwork"
       PUSH_RESULTS_URL: "http://172.17.0.1/api/admin/cookies/push"
       HEALTHCHECK_FILE: "/tmp/healthcheck.log"
+      GECKODRIVER_PATH: "/usr/bin/geckodriver"
       LIMIT: 10
     shm_size: 2g
     labels:
@@ -32,6 +33,7 @@ services:
       GET_WORK_URL: "http://172.17.0.1/api/admin/deletedcookies/getwork"
       PUSH_RESULTS_URL: "http://172.17.0.1/api/admin/cookies/push"
       HEALTHCHECK_FILE: "/tmp/healthcheck.log"
+      GECKODRIVER_PATH: "/usr/bin/geckodriver"
       LIMIT: 10
     shm_size: 2g
     dns:
