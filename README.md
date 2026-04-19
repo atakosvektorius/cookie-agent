@@ -128,4 +128,4 @@ docker inspect --format '{{json .State.Health}}' cookie-agent | jq
 
 ## Licencija ir kontaktai
 
-Šis projektas sukurtas "Atakos vektorius", https://atakosvektorius.lt
+Šis projektas sukurtas "Atakos vektorius", https://atakosvektorius.lt, saugu@atakosvektorius.lt
