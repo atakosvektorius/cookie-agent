@@ -10,6 +10,9 @@ services:
       HEALTHCHECK_FILE: "/tmp/healthcheck.log"
       GECKODRIVER_PATH: "/usr/bin/geckodriver"
       LIMIT: 10
+      DB_PATH: "/data/cookie_agent.db"
+    volumes:
+      - ./data:/data
     shm_size: 2g
     labels:
       autoheal-cookie-agent: true
@@ -35,6 +38,9 @@ services:
       HEALTHCHECK_FILE: "/tmp/healthcheck.log"
       GECKODRIVER_PATH: "/usr/bin/geckodriver"
       LIMIT: 10
+      DB_PATH: "/data/cookie_agent.db"
+    volumes:
+      - ./data:/data
     shm_size: 2g
     dns:
       - 1.1.1.1

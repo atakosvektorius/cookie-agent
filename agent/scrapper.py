@@ -5,10 +5,12 @@ import sys
 import socket
 import dns.resolver
 from datetime import datetime
-from selenium import webdriver
+from seleniumwire import webdriver
 from selenium.webdriver.firefox.service import Service
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.firefox.options import Options
+
+import db
 
 # Environment variables
 API_KEY = os.getenv("API_KEY")
@@ -35,14 +37,15 @@ def get_work():
     data = response.json()
     return [item["domain_name"] for item in data.get("domains", [])]
 
-def push_cookies(domain, cookies):    
+def push_cookies(domain, cookies, headers=None):
     data = {
         "action": "update",
         "api_key": API_KEY,
         "domain_name": domain,
-        "cookies": cookies
+        "cookies": cookies,
+        "headers": headers or {}
     }
-  
+
     response = requests.post(PUSH_RESULTS_URL, json=data)
     response.raise_for_status()
     write_healthcheck(domain)
@@ -77,26 +80,43 @@ def is_port_open(domain, port, timeout=3):
 
 # Main function
 
+def extract_main_headers(driver):
+    for req in driver.requests:
+        if req.response is None:
+            continue
+        ct = req.response.headers.get("content-type", "") or ""
+        if "html" in ct.lower():
+            return dict(req.response.headers)
+    return {}
+
+
 def main():
+    db.init_db()
     print("[INFO] Fetching domains...")
     import time
     while(True):
+        api_failed = False
         try:
             domains = get_work()
         except requests.exceptions.HTTPError as e:
+            api_failed = True
             if e.response.status_code >= 500:
-                print(f"[WARN] Server error {e.response.status_code}. Sleeping for one minute...")
-                time.sleep(60)
-                domains = None
+                print(f"[WARN] Server error {e.response.status_code}. Falling back to local DB queue...")
             else:
                 print(f"[ERROR] Failed to get work: {e}")
-                domains = None
+            domains = None
         except Exception as e:
+            api_failed = True
             print(f"[ERROR] Failed to get work (network issue?): {e}")
             domains = None
+
+        if not domains and api_failed:
+            domains = db.fetch_fallback_domains(LIMIT)
+            if domains:
+                print(f"[INFO] Using {len(domains)} domain(s) from local DB fallback.")
+
         if not domains:
-            print("[WARN] No domains received from API.")
-            # Continue instead of returning to keep script alive and updating healthcheck
+            print("[WARN] No domains received from API or local DB.")
             time.sleep(10)
             continue
 
@@ -135,6 +155,7 @@ def main():
                 for prefix in protocols:
                     url = f"{prefix}{domain}"
                     try:
+                        del driver.requests
                         driver.set_page_load_timeout(10)
                         driver.get(url)
                         WebDriverWait(driver, 5).until(
@@ -143,7 +164,9 @@ def main():
                         print(f"[STATUS] {url} loaded successfully via browser -> 200 OK")
                         cookies = driver.get_cookies()
                         cookie_names = [cookie["name"] for cookie in cookies]
-                        push_cookies(domain, cookie_names)
+                        headers = extract_main_headers(driver)
+                        db.upsert_result(domain, cookie_names, headers)
+                        push_cookies(domain, cookie_names, headers)
                         break
                     except requests.exceptions.HTTPError:
                         raise # Re-raise HTTPError to be caught by the outer loop
